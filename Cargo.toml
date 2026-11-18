@@ -1,0 +1,32 @@
+[package]
+name = "trayscroll"
+version = "0.1.0"
+edition = "2021"
+description = "Tray utility that converts Up/Down/PageUp/PageDown keys into mouse wheel scroll events (Windows/Linux)."
+license = "MIT"
+
+[dependencies]
+# Tray + menu + event loop
+tray-icon = "0.19"
+tao = "0.30"
+
+# Global keyboard capture
+rdev = "0.5"
+
+# Simulate mouse wheel scroll
+enigo = { version = "0.2", features = ["x11rb"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+  "Win32_Foundation",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_System_Threading",
+  "Win32_System_ProcessStatus",
+  "Win32_System_Diagnostics_ToolHelp",
+] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
